@@ -5,6 +5,7 @@ author: J.P.Prakash
 date: 07/04/2020
 */
 #include<iostream>
+#include<string.h>
 #include<stdlib.h>
 using namespace std;
 
