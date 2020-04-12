@@ -5,6 +5,7 @@ author: J.P.Prakash
 date: 07/04/2020
 */
 #include<iostream>
+#include<string.h>
 #include<stdlib.h>
 using namespace std;
 
@@ -17,12 +18,14 @@ int main(int argc,char *argv[])
 	unsigned short c;	// declaring varible unsigned short 
 	signed short d;		// declaring varible signed short
 	
-    if(argc>1) 
+    if(argc==2) 
 	{
-		cout<<"\n Usage of file --> \n"
-		"\t filename.exe and enter"<<endl<<
-		"		or"<<endl<<
-		"\t ./filename.out and enter"<<endl;
+		if(strcmp(argv[1],"-h")==0)     //created a help command
+        {
+			cout<<"\n Usage of file --> \n"
+					"\t filename.exe & enter"<<endl<<
+					" Program used to demonstrate Modifier types "<<endl;
+		}	
 	}
 	else
 	{		
