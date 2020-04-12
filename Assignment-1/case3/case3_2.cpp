@@ -18,10 +18,10 @@ int main(int argc,char *argv[])
 	unsigned short c;	// declaring varible unsigned short 
 	signed short d;		// declaring varible signed short
 	
-    if(argc==2) 
+    	if(argc==2) 
 	{
 		if(strcmp(argv[1],"-h")==0)     //created a help command
-        {
+        	{
 			cout<<"\n Usage of file --> \n"
 					"\t filename.exe & enter"<<endl<<
 					" Program used to demonstrate Modifier types "<<endl;
