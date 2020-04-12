@@ -5,6 +5,7 @@ author:J.P.Prakash
 date:06/04/2020
 */
 #include<iostream>
+#include<string.h>
 #include<stdlib.h>
 using namespace std;
 
@@ -16,12 +17,15 @@ int main(int argc,char *argv[])
 {
 	int iInt;		//declaring integer variables
 	float fFloat;	//declaring float variable
-	if(argc==1)
+	if(argc>=2)
 	{
-		cout<<"\n usage of file --> \n"
-		"\t filename.exe arg1 arg2 arg3 arg4"<<endl<<
-		"			or"<<endl<<
-		"\t ./filename.out arg1 arg2 arg3 arg4"<<endl;
+		if(strcmp(argv[1],"-h")==0)     //created a help command
+        	{
+			cout<<"\n usage of file --> \n"
+			"\t filename.exe arg1 arg2 arg3 arg4.."<<endl<<
+			"			or"<<endl<<
+			"\t ./filename.out arg1 arg2 arg3 arg4.."<<endl;
+		}	
 	}
 	else
 	{
