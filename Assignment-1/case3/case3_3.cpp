@@ -5,6 +5,7 @@ author: J.P.Prakash
 date: 08/04/2020
 */
 #include<iostream>
+#include<string.h>
 #include<stdlib.h>
 using namespace std;
 
@@ -25,12 +26,14 @@ int main(int argc,char *argv[])
 	static int p;
 	int q;
 	int iValue;
-	if(argc>1) 
+	if(argc==2) 
 	{
-		cout<<"\n Usage of file --> \n"
-		"\t filename.exe and enter"<<endl<<
-		"		or"<<endl<<
-		"\t ./filename.out and enter"<<endl;
+		if(strcmp(argv[1],"-h")==0)     //created a help command
+        	{
+			cout<<"\n Usage of file --> \n"
+					"\t filename.exe & enter"<<endl<<
+					" Program used to demonstrate different storage classes "<<endl;
+		}	
 	}
 	else
 	{
@@ -42,7 +45,7 @@ int main(int argc,char *argv[])
 			cin>>p;
 		cout<<"Enter non-static variable: ";
 			cin>>q;
-		*/
+	*/
 		cout<<"Enter a value: ";
 			cin>>iValue;
 		a=b=p=q=iValue;
@@ -124,4 +127,3 @@ void staticStorageClass(int iValue)
 	} 
 	cout<<"--------------------------------"<<endl; 
 } 
-
