@@ -20,12 +20,14 @@ inline display()
 // main function
 int main(int argc,char *argv[])
 {
-    if(argc>1) 
+    if(argc>2) 
 	{
-		cout<<"\n Usage of file --> \n"
-		"\t filename.exe and enter"<<endl<<
-		"			or"<<endl<<
-		"\t ./filename.out and enter"<<endl;
+		if(strcmp(argv[1],"-h")==0)     //created a help command
+        {
+			cout<<"\n Usage of file --> \n"
+				"\t filename.exe & enter"<<endl<<
+				" Program used to demonstrate Variable Scope "<<endl;
+		}	
 	}
 	else
 	{	
@@ -33,7 +35,7 @@ int main(int argc,char *argv[])
 	   	cout<<"Global value: ";
 		display(); 
 
-		iGlobal=50;
+		iGlobal=55;
 		// changing value of iGlobal by assigning value locally
 		// local variable defined with same name as that of a global variable then the compiler will give precedence to the local variable
 		cout<<"Local value: ";
