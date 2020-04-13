@@ -234,7 +234,8 @@ int main(int argc,char *argv[]){
 					"\t filename.exe & enter"<<endl<<
 					"\t -Program to perform filehandling in 'notes.ini' file. "<<endl<<
 					"\t -select an option from the list "<<endl<<
-					"\t -submit data based on the requirement "<<endl;
+					"\t -submit data based on the requirement "<<endl<<
+					"Note: please don't give any spaces as input as the code maybe fall into infinite loop."<<endl;
 		}	
 	}
 	else
