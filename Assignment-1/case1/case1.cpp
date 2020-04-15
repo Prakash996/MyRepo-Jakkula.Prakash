@@ -17,7 +17,7 @@ int main(int argc,char *argv[])
 {
 	int iInt;		//declaring integer variables
 	float fFloat;	//declaring float variable
-	if(argc>=2)
+	if(argc==2)
 	{
 		if(strcmp(argv[1],"-h")==0)     //created a help command
         	{
@@ -39,13 +39,11 @@ int main(int argc,char *argv[])
 			{
 				if(checkDatatype(argv[i]))	
 				{
-					cout<<"Char";
-					cout<<"\t\t"<<argv[i]<<"\t\t"<<sizeof(i)<<endl;
+					cout<<"Char"<<"\t\t"<<argv[i]<<"\t\t"<<strlen(argv[i])<<endl;
 				}
 				else	
 				{
-					cout<<"String";
-					cout<<"\t\t"<<argv[i]<<"\t\t"<<sizeof(argv[i])<<endl;
+					cout<<"String"<<"\t\t"<<argv[i]<<"\t\t"<<sizeof(argv[i])<<endl;
 				}
 			}
 			else
