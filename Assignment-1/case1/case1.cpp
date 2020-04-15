@@ -43,7 +43,7 @@ int main(int argc,char *argv[])
 				}
 				else	
 				{
-					cout<<"String"<<"\t\t"<<argv[i]<<"\t\t"<<sizeof(argv[i])<<endl;
+					cout<<"String"<<"\t\t"<<argv[i]<<"\t\t"<<strlen(argv[i])<<endl;
 				}
 			}
 			else
