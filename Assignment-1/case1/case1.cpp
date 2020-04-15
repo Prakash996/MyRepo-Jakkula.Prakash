@@ -15,46 +15,46 @@ bool checkDatatype(string sStr);
 //main using command line arguments
 int main(int argc,char *argv[])
 {
-	int iInt;		//declaring integer variables
-	float fFloat;	//declaring float variable
+	int iCheckInt;		//declaring integer variables
+	float fCheckFloat;	//declaring float variable
 	if(argc==2)
 	{
 		if(strcmp(argv[1],"-h")==0)     //created a help command
-        	{
+        {
 			cout<<"\n usage of file --> \n"
 			"\t filename.exe arg1 arg2 arg3 arg4.."<<endl<<
 			"			or"<<endl<<
 			"\t ./filename.out arg1 arg2 arg3 arg4.."<<endl;
-		}	
-	}
-	else
-	{
-		cout<<"Type \t\tValue \t\tSizeof"<<endl;
-		for(int i=1;i<argc;i++)
+		}		
+		else
 		{
-			iInt=atoi(argv[i]);		//atoi convert ascii to int
-			fFloat=atof(argv[i]);	//atof convert ascii to float
-
-			if(iInt==0) //checks the argument and print the specific datatype & size of the argument
+			cout<<"Type \t\tValue \t\tSizeof"<<endl;
+			for(int i=1;i<argc;i++)
 			{
-				if(checkDatatype(argv[i]))	
+				iCheckInt=atoi(argv[i]);		//atoi convert ascii to int
+				fCheckFloat=atof(argv[i]);	//atof convert ascii to float
+	
+				if(iCheckInt==0) //checks the argument and print the specific datatype & size of the argument
 				{
-					cout<<"Char"<<"\t\t"<<argv[i]<<"\t\t"<<strlen(argv[i])<<endl;
+					if(checkDatatype(argv[i]))	
+					{
+						cout<<"Char"<<"\t\t"<<argv[i]<<"\t\t"<<strlen(argv[i])<<endl;
+					}
+					else	
+					{
+						cout<<"String"<<"\t\t"<<argv[i]<<"\t\t"<<strlen(argv[i])<<endl;
+					}
 				}
-				else	
+				else
 				{
-					cout<<"String"<<"\t\t"<<argv[i]<<"\t\t"<<strlen(argv[i])<<endl;
+				if(iCheckInt==fCheckFloat)
+					cout<<"Int"<<"\t\t"<<iCheckInt<<"\t\t"<<sizeof(iCheckInt)<<endl;
+				else
+					cout<<"Float/Double"<<"\t"<<fCheckFloat<<"\t\t"<<sizeof(fCheckFloat)<<endl;
 				}
 			}
-			else
-			{
-			if(iInt==fFloat)
-				cout<<"Int"<<"\t\t"<<iInt<<"\t\t"<<sizeof(iInt)<<endl;
-			else
-				cout<<"Float/Double"<<"\t"<<fFloat<<"\t\t"<<sizeof(fFloat)<<endl;
-			}
+			return 0;
 		}
-		return 0;
 	}
 }
 
