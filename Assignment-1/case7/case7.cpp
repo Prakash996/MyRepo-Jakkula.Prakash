@@ -39,29 +39,29 @@ private:
                 //adds records till while loop is true or moreRecords == 'y'
 				do{              
                         cout<<"\n----------------------------------------";
-                        cout<<"\n NotesProgram= ";
+                        cout<<"\n NotesProgram= [give path]";
                         cin>>cPrg;
-                        cout<<"\n Directory= ";
+                        cout<<"\n Directory= [give path]";
                         cin>>cDir;
-                        cout<<"\n KitType= ";
+                        cout<<"\n KitType= [give integer]";
                         cin>>iKit;
-                        cout<<"\n InstallType= ";
+                        cout<<"\n InstallType= [give integer]";
                         cin>>iInstall;
-                        cout<<"\n PartitionNumber= ";
+                        cout<<"\n PartitionNumber= [give integer]";
                         cin>>iPNo;
-                        cout<<"\n showControllerStatusWindow= ";
+                        cout<<"\n showControllerStatusWindow= [give integer]";
                         cin>>iStatusWindow;
-                        cout<<"\n ServiceName= ";
+                        cout<<"\n ServiceName= [give string]";
                         cin>>cService;                        
-                        cout<<"\n FaultRecovery_Build= ";
+                        cout<<"\n FaultRecovery_Build= [give string]";
                         cin>>cRecovery;                        
-                        cout<<"\n Timezone= ";
+                        cout<<"\n Timezone= [give integer]";
                         cin>>iTimezone;                        
-                        cout<<"\n DST= ";
+                        cout<<"\n DST= [give integer]";
                         cin>>iDst;                        
-                        cout<<"\n DSTLAW= ";
+                        cout<<"\n DSTLAW= [give integer, no commas]";
                         cin>>iDstlaw;                        
-                        cout<<"\n FileDlgDirectory= ";
+                        cout<<"\n FileDlgDirectory= [give path]";
                         cin>>cFiledir;
                         
                         cout<<"\n----------------------------------------";
@@ -123,7 +123,7 @@ private:
  		void editExisting(void)
 		{
                 char checkId[30];
-                cout<<"\nEnter Server Name= ";
+                cout<<"\nEnter Service Name= ";
                 cin>>checkId;
                 char newFiledir[300];
                 cout<<"\n-----------------------------";
@@ -152,7 +152,7 @@ private:
         void deleteConfig(void){
 
                 char checkId[30];
-                cout<<"\nEnter Server Name= ";
+                cout<<"\nEnter Service Name= ";
                 cin>>checkId;
                 char ch;
                 cout<<"\n\n\n Confirmation\n Enter 'y' To Confirm Deletion \n";
