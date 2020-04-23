@@ -1,0 +1,3 @@
+﻿  ParseIBMString.cpp
+d:\hcl washing\filter c++\parseibmstring\parseibmstring\parseibmstring.cpp(145): warning C4715: 'debug': not all control paths return a value
+  ParseIBMString.vcxproj -> D:\HCL Washing\Filter C++\ParseIBMString\Debug\ParseIBMString.exe
