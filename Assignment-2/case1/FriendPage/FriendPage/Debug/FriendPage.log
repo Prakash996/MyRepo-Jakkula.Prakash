@@ -1,0 +1,4 @@
+﻿  FriendPage.cpp
+e:\c++\assignment-2\case1\friendpage\friendpage\friendpage.cpp(48): warning C4101: 'DataBase': unreferenced local variable
+e:\c++\assignment-2\case1\friendpage\friendpage\friendpage.cpp(280): warning C4101: 'moreRecords': unreferenced local variable
+  FriendPage.vcxproj -> E:\C++\Assignment-2\case1\FriendPage\Debug\FriendPage.exe
