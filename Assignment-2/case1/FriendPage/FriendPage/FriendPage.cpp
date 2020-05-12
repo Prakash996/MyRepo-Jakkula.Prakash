@@ -1,5 +1,9 @@
-// FriendPage.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+filename: FriendPage.cpp 
+details: Program is  an application called ‘Friendpage’, which performs certain datastoring and retrival process in the application using sqlite database.
+author: J.P.Prakash
+date: 07/05/2020
+*/
 
 #include <iostream>
 #include <stdlib.h>
