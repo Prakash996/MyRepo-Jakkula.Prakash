@@ -26,60 +26,72 @@ class Matrix{
 
 
 int main(){
-	
-	Matrix data;
-	int iRows, iCols, iChoice;
-	char array[MAX][MAX];
-	char trans[MAX][MAX];
-	char temp[MAX][MAX];	
-	char iContinue;
-	
-	cout<<"Enter the number of Rows : ";
-    cin>>iRows;
-    cout<<"Enter the number of Columns : ";
-    cin>>iCols;
-    
-	data.readArray(array,iRows,iCols);	//calls readArray function
-	data.display(array,iRows,iCols);		//calls display function
-	
-	do{
-		cout<<"\n Chose an option : "<<endl;
-	    cout<<"\t 1. row check"<<endl<<
-			"\t 2. column check"<<endl<<
-			"\t 3. Adjecent check"<<endl<<
-			"\t 4. read Data"<<endl;
-	    cin>>iChoice;
-	    cout<<endl;
-	    switch(iChoice) {
-	    	case 1:
-	    		cout<<"\n Row wise check : "<<endl;
-				data.checkRepeating(array, iRows, iCols);	//calls checkRepeating function
-				data.display(array, iRows, iCols);
-	    		break;
-	    	case 2:
-	    		cout<<"\n Column wise check : "<<endl;
-	    		data.traverse(array, trans, iRows, iCols);	//calls traverse function
-	    		data.checkRepeating(trans, iRows, iCols);	//calls checkRepeating function
-				data.traverse(trans, temp, iRows, iCols);	//recalls traverse function
-	    		data.display(temp, iRows, iCols);
-	    		break;	
-	    	case 3:
-	    		cout<<"\n Diagonal wise check : "<<endl;
-	    		data.diagonalCheck(array,iRows,iCols);		//calls diagonalCheck function
-	    		data.display(array, iRows, iCols);
-	    		break;
-	    	case 4:
-	    		cout<<"\n Enter Input Data : "<<endl;
-	    		data.readArray(array,iRows,iCols);			//calls readArray function
-	    		data.display(array,iRows,iCols);
-	    		break;
-			default: "invalid option";
-				break;
-		}
-		cout<<"do want to continue (Y/N) : ";
-		cin>>iContinue;
-	}while(iContinue == 'y');
-	return 0;
+	if(argc==2) 
+	{
+		if(strcmp(argv[1],"-h")==0)     //created a help command
+        {
+			cout<<"\n Usage of file --> \n"
+					"\t filename.exe & enter"<<endl<<
+					"\t -Enter the number of rows & number of columns "<<endl<<
+					"\t -Enter data into the array "<<endl<<
+					"\t -choose the option to perform certain operation "<<endl<<
+					"Note: please don't give any spaces as input as the code maybe fall into infinite loop."<<endl;
+		}	
+	} else {
+		Matrix data;
+		int iRows, iCols, iChoice;
+		char array[MAX][MAX];
+		char trans[MAX][MAX];
+		char temp[MAX][MAX];	
+		char iContinue;
+		
+		cout<<"Enter the number of Rows : ";
+	    cin>>iRows;
+	    cout<<"Enter the number of Columns : ";
+	    cin>>iCols;
+	    
+		data.readArray(array,iRows,iCols);	//calls readArray function
+		data.display(array,iRows,iCols);		//calls display function
+		
+		do {
+			cout<<"\n Chose an option : "<<endl;
+		    cout<<"\t 1. row check"<<endl<<
+				"\t 2. column check"<<endl<<
+				"\t 3. Adjecent check"<<endl<<
+				"\t 4. read Data"<<endl;
+		    cin>>iChoice;
+		    cout<<endl;
+		    switch(iChoice) {
+		    	case 1:
+		    		cout<<"\n Row wise check : "<<endl;
+					data.checkRepeating(array, iRows, iCols);	//calls checkRepeating function
+					data.display(array, iRows, iCols);
+		    		break;
+		    	case 2:
+		    		cout<<"\n Column wise check : "<<endl;
+		    		data.traverse(array, trans, iRows, iCols);	//calls traverse function
+		    		data.checkRepeating(trans, iRows, iCols);	//calls checkRepeating function
+					data.traverse(trans, temp, iRows, iCols);	//recalls traverse function
+		    		data.display(temp, iRows, iCols);
+		    		break;	
+		    	case 3:
+		    		cout<<"\n Diagonal wise check : "<<endl;
+		    		data.diagonalCheck(array,iRows,iCols);		//calls diagonalCheck function
+		    		data.display(array, iRows, iCols);
+		    		break;
+		    	case 4:
+		    		cout<<"\n Enter Input Data : "<<endl;
+		    		data.readArray(array,iRows,iCols);			//calls readArray function
+		    		data.display(array,iRows,iCols);
+		    		break;
+				default: "invalid option";
+					break;
+			}
+			cout<<"do want to continue (Y/N) : ";
+			cin>>iContinue;
+		} while(iContinue == 'y');
+		return 0;
+	}	
 }
 
 /* function reads input and check either the input is 0's and 1's or not */
