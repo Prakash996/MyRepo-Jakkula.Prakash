@@ -6,6 +6,7 @@ date: 11/05/2020
 */
 
 #include<iostream>
+#include<string.h>
 #define MAX 10
 
 using namespace std;
@@ -13,8 +14,7 @@ class Matrix{
 	protected:
 		int iRows, iCols, iChoice;
 		char array[MAX][MAX];
-		char trans[MAX][MAX];
-		char temp[MAX][MAX];	
+		char trans[MAX][MAX];	
 		char iContinue;
 	public:	
 		void readArray(char array[MAX][MAX],int iRows,int iCols);
@@ -25,7 +25,7 @@ class Matrix{
 };
 
 
-int main(){
+int main(int argc,char *argv[]){
 	if(argc==2) 
 	{
 		if(strcmp(argv[1],"-h")==0)     //created a help command
@@ -41,8 +41,7 @@ int main(){
 		Matrix data;
 		int iRows, iCols, iChoice;
 		char array[MAX][MAX];
-		char trans[MAX][MAX];
-		char temp[MAX][MAX];	
+		char trans[MAX][MAX];	
 		char iContinue;
 		
 		cout<<"Enter the number of Rows : ";
@@ -71,8 +70,8 @@ int main(){
 		    		cout<<"\n Column wise check : "<<endl;
 		    		data.traverse(array, trans, iRows, iCols);	//calls traverse function
 		    		data.checkRepeating(trans, iRows, iCols);	//calls checkRepeating function
-					data.traverse(trans, temp, iRows, iCols);	//recalls traverse function
-		    		data.display(temp, iRows, iCols);
+					data.traverse(trans, array, iRows, iCols);	//recalls traverse function
+		    		data.display(array, iRows, iCols);
 		    		break;	
 		    	case 3:
 		    		cout<<"\n Diagonal wise check : "<<endl;
@@ -177,10 +176,9 @@ Matrix Matrix::checkRepeating(char array[MAX][MAX],int iRows,int iCols){
 
 /*Converst the matrix array's data into tarvers*/
 Matrix Matrix::traverse(char array[MAX][MAX], char trans[MAX][MAX], int iRows, int iCols){
-	int i,j;
-    for(i=0;i<iRows;i++)
+    for(int i=0;i<iRows;i++)
     {
-        for(j=0;j<iCols;j++)
+        for(int j=0;j<iCols;j++)
         {
             trans[j][i] = array[i][j];
         }
