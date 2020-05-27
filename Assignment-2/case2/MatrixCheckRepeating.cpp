@@ -11,17 +11,21 @@ date: 11/05/2020
 
 using namespace std;
 class Matrix{
-	protected:
-		int iRows, iCols, iChoice;
-		char array[MAX][MAX];
-		char trans[MAX][MAX];	
-		char iContinue;
+	public:
+		int iRows, iCols;
+		char matrix[MAX][MAX];
+		char traverseMatrix[MAX][MAX];	
+		
 	public:	
-		void readArray(char array[MAX][MAX],int iRows,int iCols);
-		void display(char array[MAX][MAX],int iRows,int iCols);
-		Matrix checkRepeating(char array[MAX][MAX],int iRows,int iCols);
-		Matrix traverse(char array[MAX][MAX], char trans[MAX][MAX], int iRows, int iCols);
-		Matrix diagonalCheck(char array[MAX][MAX], int iRows, int iCols);	
+		Matrix(){
+			this->iRows=iRows;
+			this->iCols=iCols;
+		}
+		void readMatrix(char matrix[MAX][MAX],int iRows,int iCols);
+		void display(char matrix[MAX][MAX],int iRows,int iCols);
+		Matrix checkRepeating(char matrix[MAX][MAX],int iRows,int iCols);
+		Matrix traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], int iRows, int iCols);
+		Matrix diagonalCheck(char matrix[MAX][MAX], int iRows, int iCols);	
 };
 
 
@@ -38,50 +42,51 @@ int main(int argc,char *argv[]){
 					"Note: please don't give any spaces as input as the code maybe fall into infinite loop."<<endl;
 		}	
 	} else {
-		Matrix data;
-		int iRows, iCols, iChoice;
-		char array[MAX][MAX];
-		char trans[MAX][MAX];	
+		Matrix *data=new Matrix();
+		//int iRows, iCols, 
+		int iChoice;
+		char matrix[MAX][MAX];
+		char traverseMatrix[MAX][MAX];	
 		char iContinue;
 		
 		cout<<"Enter the number of Rows : ";
-	    cin>>iRows;
-	    cout<<"Enter the number of Columns : ";
-	    cin>>iCols;
+	    cin>>data->iRows;
+		cout<<"Enter the number of Columns : ";
+	    cin>>data->iCols;
 	    
-		data.readArray(array,iRows,iCols);	//calls readArray function
-		data.display(array,iRows,iCols);		//calls display function
+		data->readMatrix(matrix,data->iRows,data->iCols);	//calls readMatrix function
+		data->display(matrix,data->iRows,data->iCols);		//calls display function
 		
 		do {
 			cout<<"\n Chose an option : "<<endl;
 		    cout<<"\t 1. row check"<<endl<<
 				"\t 2. column check"<<endl<<
 				"\t 3. Adjecent check"<<endl<<
-				"\t 4. read Data"<<endl;
+				"\t 4. re-enter inputs"<<endl;
 		    cin>>iChoice;
 		    cout<<endl;
 		    switch(iChoice) {
 		    	case 1:
 		    		cout<<"\n Row wise check : "<<endl;
-					data.checkRepeating(array, iRows, iCols);	//calls checkRepeating function
-					data.display(array, iRows, iCols);
+					data->checkRepeating(matrix, data->iRows, data->iCols);	//calls checkRepeating function
+					data->display(matrix, data->iRows, data->iCols);
 		    		break;
 		    	case 2:
 		    		cout<<"\n Column wise check : "<<endl;
-		    		data.traverse(array, trans, iRows, iCols);	//calls traverse function
-		    		data.checkRepeating(trans, iRows, iCols);	//calls checkRepeating function
-					data.traverse(trans, array, iRows, iCols);	//recalls traverse function
-		    		data.display(array, iRows, iCols);
+		    		data->traverse(matrix, traverseMatrix, data->iRows, data->iCols);	//calls traverse function
+		    		data->checkRepeating(traverseMatrix, data->iRows, data->iCols);	//calls checkRepeating function
+					data->traverse(traverseMatrix, matrix, data->iRows, data->iCols);	//recalls traverse function
+		    		data->display(matrix, data->iRows, data->iCols);
 		    		break;	
 		    	case 3:
 		    		cout<<"\n Diagonal wise check : "<<endl;
-		    		data.diagonalCheck(array,iRows,iCols);		//calls diagonalCheck function
-		    		data.display(array, iRows, iCols);
+		    		data->diagonalCheck(matrix, data->iRows, data->iCols);		//calls diagonalCheck function
+		    		data->display(matrix, data->iRows, data->iCols);
 		    		break;
 		    	case 4:
 		    		cout<<"\n Enter Input Data : "<<endl;
-		    		data.readArray(array,iRows,iCols);			//calls readArray function
-		    		data.display(array,iRows,iCols);
+		    		data->readMatrix(matrix, data->iRows, data->iCols);			//calls readMatrix function
+		    		data->display(matrix, data->iRows, data->iCols);
 		    		break;
 				default: "invalid option";
 					break;
@@ -89,31 +94,33 @@ int main(int argc,char *argv[]){
 			cout<<"do want to continue (Y/N) : ";
 			cin>>iContinue;
 		} while(iContinue == 'y');
+		
+		delete[] data;
 		return 0;
 	}	
 }
 
 /* function reads input and check either the input is 0's and 1's or not */
-void Matrix::readArray(char array[MAX][MAX],int iRows,int iCols){
+void Matrix::readMatrix(char matrix[MAX][MAX],int iRows,int iCols){
 	
-    for(int i=0; i<iRows; i++)
+    for(int countRow=0; countRow<iRows; countRow++)
     {
-        for(int j=0; j<iCols; j++)
+        for(int countColumn=0; countColumn<iCols; countColumn++)
         {
-            bool check=true;
-            cout<<"Enter ("<<i<<","<<j<<") : ";
-            cin>>array[i][j];
-            while(check)		//check either the input is 1's and 0's or not
+            bool checkInput=true;
+            cout<<"Enter ("<<countRow<<","<<countColumn<<") : ";
+            cin>>matrix[countRow][countColumn];
+            while(checkInput)		//check either the input is 1's and 0's or not
             {
-                if(array[i][j]=='0' || array[i][j]=='1')	
+                if(matrix[countRow][countColumn]=='0' || matrix[countRow][countColumn]=='1')	
                 {
-                    check=false;
+                    checkInput=false;
                 }
                 else
                 {
                     cout<<"please enter 0 or 1.."<<endl;
-                    cout<<"Enter ("<<i<<","<<j<<") : ";
-                    cin>>array[i][j];
+                    cout<<"Enter ("<<countRow<<","<<countColumn<<") : ";
+                    cin>>matrix[countRow][countColumn];
                 }
             }
         }
@@ -121,133 +128,133 @@ void Matrix::readArray(char array[MAX][MAX],int iRows,int iCols){
 }
 
 /*function displays the data with in the Matrix Array*/
-void Matrix::display(char array[MAX][MAX],int iRows,int iCols){
+void Matrix::display(char matrix[MAX][MAX],int iRows,int iCols){
 	cout<<endl;
-	for(int i=0; i<iRows; i++)
+	for(int countRow=0; countRow<iRows; countRow++)
 	{
-		for(int j=0;j<iCols;j++)
+		for(int countColumn=0; countColumn<iCols; countColumn++)
 		{
-			cout<<array[i][j]<<"\t";
+			cout<<matrix[countRow][countColumn]<<"\t";
 		}
 		cout<<endl;
 	}
 }
 
 /* checks the Matrix array row wise and replaces the data with '*' when a repeatation occurs*/
-Matrix Matrix::checkRepeating(char array[MAX][MAX],int iRows,int iCols){
-   	int count;
+Matrix Matrix::checkRepeating(char matrix[MAX][MAX],int iRows,int iCols){
+   	int countRepetition;
     int iCols1;
     int temp;
-    for(int i=0; i<iRows; i++)
+    for(int countRow=0; countRow<iRows; countRow++)
     {
-    	count=0;
+    	countRepetition=0;
     	iCols1=iCols;
-        temp = array[i][0];						
+        temp = matrix[countRow][0];						
 		/*assigns temp with the initial position of matrix and based on the following conditions if repeations occured it will be replaced with '*' */
-        for(int j=1; j<iCols1; )						
+        for(int countColumn=1; countColumn<iCols1;)						
         {
-            if(temp == array[i][j])
+            if(temp == matrix[countRow][countColumn])
             {
-                for(int k=j; k<iCols1-1; k++)
+                for(int changeData=countColumn; changeData<iCols1-1; changeData++)
                 {
-                    array[i][k] = array[i][k+1];
+                    matrix[countRow][changeData] = matrix[countRow][changeData+1];
                 }
                 iCols1--;
-                if(temp != array[i][j])
+                if(temp != matrix[countRow][countColumn])
                 {
-                    temp = array[i][j];
-                     j++;
+                    temp = matrix[countRow][countColumn];
+                    countColumn++;
                 }                
-                count++;
+                countRepetition++;
             }
             else
             {
-                temp = array[i][j];
-                j++;
+                temp = matrix[countRow][countColumn];
+                countColumn++;
             }
         }
-        while(count>0)
+        while(countRepetition>0)
         {
-            array[i][iCols-count]='*';
-            count--;
+            matrix[countRow][iCols-countRepetition]='*';
+            countRepetition--;
         }
     }
 }
 
 /*Converst the matrix array's data into tarvers*/
-Matrix Matrix::traverse(char array[MAX][MAX], char trans[MAX][MAX], int iRows, int iCols){
-    for(int i=0;i<iRows;i++)
+Matrix Matrix::traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], int iRows, int iCols){
+    for(int countRow=0; countRow<iRows; countRow++)
     {
-        for(int j=0;j<iCols;j++)
+        for(int countColumn=0; countColumn<iCols; countColumn++)
         {
-            trans[j][i] = array[i][j];
+            traverseMatrix[countColumn][countRow] = matrix[countRow][countColumn];
         }
     }
 }
 
 /*checks the matrix arrya data diagonally for repeatations and replace it with '*' */
-Matrix Matrix::diagonalCheck(char array[MAX][MAX], int iRows, int iCols){
+Matrix Matrix::diagonalCheck(char matrix[MAX][MAX], int iRows, int iCols){
 	int temp;
-	int count=0;
+	int countRepetition=0;
     int iRows1=iRows,iCols1=iCols;
     
-    temp=array[0][0];
+    temp=matrix[0][0];
     /*checks the left side diagonally for repeatations data with '*' */
-    for(int i=1, j=1; i<iRows1; i++)
+    for(int countRow=1, countColumn=1; countRow<iRows1; countRow++, countColumn++)
     {
-        if(temp == array[i][j])
+        if(temp == matrix[countRow][countColumn])
         {             
-            for(int x=i,y=j; x<iRows1-1; x++,y++)
+            for(int changeRow=countRow, changeColumn=countColumn; changeRow<iRows1-1; changeRow++, changeColumn++)
             {
-                array[x][y] = array[x+1][y+1];
+                matrix[changeRow][changeColumn] = matrix[changeRow+1][changeColumn+1];
             }  
-			iRows1--;          
-            if(temp != array[i][j])
+			iRows1--;
+            if(temp != matrix[countRow][countColumn])
             {
-                temp = array[i][j];
+                temp = matrix[countRow][countColumn];
             }            
-            count++;
+            countRepetition++;
         }
         else
         {
-            temp = array[i][j];
+            temp = matrix[countRow][countColumn];
         }
     }
-    while(count>0)
+    while(countRepetition>0)
     {
-        array[iRows-count][iCols-count]='*';
-        count--;
+        matrix[iRows-countRepetition][iCols-countRepetition]='*';
+        countRepetition--;
     }
 
 	/*checks the right side diagonally for repeatations data with '*' */
-	temp = array[0][iCols-1];
-    count=0;
+    countRepetition=0;
     iRows1=iRows;
-	iCols1=iCols;
-    for( int i=1,j=iCols-2; i<iRows1; i++,j--)
+	iCols1=iCols;	
+	temp = matrix[0][iCols1-1];
+    for( int countRow=1, countColumn=iCols1-2; countRow<iRows1; countRow++, countColumn--)
     {
-        if(temp == array[i][j])
+        if(temp == matrix[countRow][countColumn])
         {
-            for(int x=i,y=j; x<iRows1-1; x++,y--)
+            for(int changeRow=countRow, changeColumn=countColumn; changeRow<iRows1-1; changeRow++, changeColumn--)
             {
-                array[x][y] = array[x+1][y-1];                
+                matrix[changeRow][changeColumn] = matrix[changeRow+1][changeColumn-1];                
             }
             iRows1--;
-            if(temp != array[i][j])
+            if(temp != matrix[countRow][countColumn])
             {
-                temp = array[i][j];
+                temp = matrix[countRow][countColumn];
             }
-            count++;
+            countRepetition++;
         }
         else
         {
-            temp = array[i][j];
+            temp = matrix[countRow][countColumn];
         }
     }
     
-    for(int x=iRows-1, y=0;count>0; x--,y++)
+    for(int changeRow=iRows-1, changeColumn=0; countRepetition>0 ; changeRow--, changeColumn++)
     {
-        array[x][y]='*';
-        count--;        
+        matrix[changeRow][changeColumn]='*';
+        countRepetition--;        
     }
 }
