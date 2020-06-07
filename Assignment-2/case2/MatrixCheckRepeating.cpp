@@ -20,12 +20,13 @@ class Matrix{
 		Matrix(){
 			this->iRows=iRows;
 			this->iCols=iCols;
+			this->matrix[MAX][MAX]=matrix[MAX][MAX];
 		}
 		void readMatrix(char matrix[MAX][MAX],int iRows,int iCols);
 		void display(char matrix[MAX][MAX],int iRows,int iCols);
-		Matrix checkRepeating(char matrix[MAX][MAX],int iRows,int iCols);
-		Matrix traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], int iRows, int iCols);
-		Matrix diagonalCheck(char matrix[MAX][MAX], int iRows, int iCols);	
+		int checkRepeating(char matrix[MAX][MAX],int iRows,int iCols);
+		int traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], int iRows, int iCols);
+		int diagonalCheck(char matrix[MAX][MAX], int iRows, int iCols);	
 };
 
 
@@ -45,55 +46,59 @@ int main(int argc,char *argv[]){
 		Matrix *data=new Matrix();
 		//int iRows, iCols, 
 		int iChoice;
-		char matrix[MAX][MAX];
-		char traverseMatrix[MAX][MAX];	
-		char iContinue;
-		
-		cout<<"Enter the number of Rows : ";
-	    cin>>data->iRows;
-		cout<<"Enter the number of Columns : ";
-	    cin>>data->iCols;
-	    
-		data->readMatrix(matrix,data->iRows,data->iCols);	//calls readMatrix function
-		data->display(matrix,data->iRows,data->iCols);		//calls display function
-		
+		//char matrix[MAX][MAX];
+		char traverseMatrix[MAX][MAX];		
 		do {
+		//	data->readMatrix(data->matrix,data->iRows,data->iCols);	//calls readMatrix function
+		//	data->display(data->matrix,data->iRows,data->iCols);		//calls display function
 			cout<<"\n Chose an option : "<<endl;
-		    cout<<"\t 1. row check"<<endl<<
-				"\t 2. column check"<<endl<<
-				"\t 3. Adjecent check"<<endl<<
-				"\t 4. re-enter inputs"<<endl;
+		    cout<<"\t 1. enter inputs"<<endl<<
+				"\t 2. row check"<<endl<<
+				"\t 3. column check"<<endl<<
+				"\t 4. Adjecent check"<<endl<<
+				"\t 0. exit"<<endl;
 		    cin>>iChoice;
 		    cout<<endl;
 		    switch(iChoice) {
 		    	case 1:
-		    		cout<<"\n Row wise check : "<<endl;
-					data->checkRepeating(matrix, data->iRows, data->iCols);	//calls checkRepeating function
-					data->display(matrix, data->iRows, data->iCols);
+		    		cout<<"Enter the number of Rows : ";
+				    cin>>data->iRows;
+					cout<<"Enter the number of Columns : ";
+				    cin>>data->iCols;
+		    		cout<<"\n Enter Input Data : "<<endl;
+		    		data->readMatrix(data->matrix, data->iRows, data->iCols);			//calls readMatrix function
+		    		cout<<"\n Give Data : "<<endl;
+		    		data->display(data->matrix, data->iRows, data->iCols);				//calls display function
 		    		break;
 		    	case 2:
-		    		cout<<"\n Column wise check : "<<endl;
-		    		data->traverse(matrix, traverseMatrix, data->iRows, data->iCols);	//calls traverse function
-		    		data->checkRepeating(traverseMatrix, data->iRows, data->iCols);	//calls checkRepeating function
-					data->traverse(traverseMatrix, matrix, data->iRows, data->iCols);	//recalls traverse function
-		    		data->display(matrix, data->iRows, data->iCols);
-		    		break;	
+		    		cout<<"\n Give Data : "<<endl;
+		    		data->display(data->matrix, data->iRows, data->iCols);					
+		    		cout<<"\n Row wise check : "<<endl;
+					data->checkRepeating(data->matrix, data->iRows, data->iCols);		//calls checkRepeating function
+					data->display(data->matrix, data->iRows, data->iCols);
+		    		break;
 		    	case 3:
-		    		cout<<"\n Diagonal wise check : "<<endl;
-		    		data->diagonalCheck(matrix, data->iRows, data->iCols);		//calls diagonalCheck function
-		    		data->display(matrix, data->iRows, data->iCols);
-		    		break;
+		    		cout<<"\n Give Data : "<<endl;
+		    		data->display(data->matrix, data->iRows, data->iCols);
+		    		cout<<"\n Column wise check : "<<endl;
+		    		data->traverse(data->matrix, traverseMatrix, data->iRows, data->iCols);		//calls traverse function
+		    		data->checkRepeating(traverseMatrix, data->iRows, data->iCols);				//calls checkRepeating function
+					data->traverse(traverseMatrix, data->matrix, data->iRows, data->iCols);		//recalls traverse function
+		    		data->display(data->matrix, data->iRows, data->iCols);
+		    		break;	
 		    	case 4:
-		    		cout<<"\n Enter Input Data : "<<endl;
-		    		data->readMatrix(matrix, data->iRows, data->iCols);			//calls readMatrix function
-		    		data->display(matrix, data->iRows, data->iCols);
+		    		cout<<"\n Give Data : "<<endl;
+		    		data->display(data->matrix, data->iRows, data->iCols);
+		    		cout<<"\n Diagonal wise check : "<<endl;
+		    		data->diagonalCheck(data->matrix, data->iRows, data->iCols);		//calls diagonalCheck function
+		    		data->display(data->matrix, data->iRows, data->iCols);
 		    		break;
-				default: "invalid option";
+		    	case 0:
+		    		return 0;
+				default: "invalid option..";
 					break;
 			}
-			cout<<"do want to continue (Y/N) : ";
-			cin>>iContinue;
-		} while(iContinue == 'y');
+		} while(1);
 		
 		delete[] data;
 		return 0;
@@ -141,7 +146,7 @@ void Matrix::display(char matrix[MAX][MAX],int iRows,int iCols){
 }
 
 /* checks the Matrix array row wise and replaces the data with '*' when a repeatation occurs*/
-Matrix Matrix::checkRepeating(char matrix[MAX][MAX],int iRows,int iCols){
+int Matrix::checkRepeating(char matrix[MAX][MAX],int iRows,int iCols){
    	int countRepetition;
     int iCols1;
     int temp;
@@ -182,7 +187,7 @@ Matrix Matrix::checkRepeating(char matrix[MAX][MAX],int iRows,int iCols){
 }
 
 /*Converst the matrix array's data into tarvers*/
-Matrix Matrix::traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], int iRows, int iCols){
+int Matrix::traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], int iRows, int iCols){
     for(int countRow=0; countRow<iRows; countRow++)
     {
         for(int countColumn=0; countColumn<iCols; countColumn++)
@@ -193,7 +198,7 @@ Matrix Matrix::traverse(char matrix[MAX][MAX], char traverseMatrix[MAX][MAX], in
 }
 
 /*checks the matrix arrya data diagonally for repeatations and replace it with '*' */
-Matrix Matrix::diagonalCheck(char matrix[MAX][MAX], int iRows, int iCols){
+int Matrix::diagonalCheck(char matrix[MAX][MAX], int iRows, int iCols){
 	int temp;
 	int countRepetition=0;
     int iRows1=iRows,iCols1=iCols;
