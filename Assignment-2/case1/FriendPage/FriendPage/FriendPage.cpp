@@ -1,32 +1,32 @@
 /*
 filename: FriendPage.cpp
-details: Program is  an application called ‘Friendpage’, which performs certain datastoring and retrival process in the application using sqlite database.
+details: Program is  an application called â€˜Friendpageâ€™, which performs certain datastoring and retrival process in the application using sqlite database.
 author: J.P.Prakash
 date: 07/05/2020
 */
 
 #include <iostream>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include <sqlite3.h>
 using namespace std;
 
-static int createDB(const char* s);
-static int createUserTable(const char* s);
-static int insertUserData(const char* s);
-static int updateUserData(const char* s);
-static int deleteUserData(const char* s);
-static int selectUserData(const char* s);
+int createDB(const char* stringText);
+int createUserTable(const char* stringText);
+int insertUserData(const char* stringText);
+int updateUserData(const char* stringText);
+int deleteUserData(const char* stringText);
+int selectUserData(const char* stringText);
 
-static int callback(void* NotUsed, int argc, char** argv, char** azColName);
+int callback(void* NotUsed, int argc, char** argv, char** azColName);
 
-static int createFriendTable(const char * s);
-static int addFriend(const char* s);
-static int showFriend(const char* s);
+int createFriendTable(const char * stringText);
+int addFriend(const char* stringText);
+int showFriend(const char* stringText);
+int suggestFriend(const char* stringText);
 
-string quotesql(const string& s) {
-	return string("'") + s + string("'");
+string quotesql(const string& stringText) {
+	return string("'") + stringText + string("'");
 }
 
 int main(int argc, char *argv[])
@@ -44,22 +44,23 @@ int main(int argc, char *argv[])
 	else
 	{
 		int iChoice;
-		char iContinue;
 		//create a dirFile to store the database file & give path
 		const char* dirFile = "E:\\C++\\Assignment-2\\case1\\friendpage.db";
-		sqlite3* DataBase;
+		sqlite3* DataBase = NULL;
 
 		createDB(dirFile);
 		createUserTable(dirFile);
 		createFriendTable(dirFile);
-
 		do {
-			cout << "\n\t 1. Add User" << endl <<
+			cout << "\n Enter your Choice : "<< endl <<
+				"\t 1. Add User" << endl <<
 				"\t 2. Edit User" << endl <<
 				"\t 3. Show Users" << endl <<
 				"\t 4. Delete User" << endl <<
 				"\t 5. Add Friend" << endl <<
-				"\t 6. Show Friend" << endl;
+				"\t 6. Show Friend" << endl <<
+				"\t 7. Suggest Friend" << endl <<
+				"\t 0. Exit" << endl;
 
 			cout << "\n Enter your choice : ";
 			cin >> iChoice;
@@ -77,40 +78,42 @@ int main(int argc, char *argv[])
 				break;
 			case 6: showFriend(dirFile);
 				break;
+			case 7: suggestFriend(dirFile);
+				break;
+			case 0: return 0;
+
 			default: cout << "\n Invalid option \n";
 				break;
 			}
-			cout << "\n do you want to continue (Y/N) : ";
-			cin >> iContinue;
-		} while (iContinue == 'y');
+		} while (1);
 	}
 	return 0;
 }
 
 //creates the FriendPage Database
-static int createDB(const char * s)
+int createDB(const char * stringText)
 {
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 	int iDB = 0;
 
-	iDB = sqlite3_open(s, &DataBase);
+	iDB = sqlite3_open(stringText, &DataBase);
 	sqlite3_close(DataBase);
 
 	return 0;
 }
 
 //creates the 'User_Details' table in FriendPage database
-static int createUserTable(const char * s)
+int createUserTable(const char * stringText)
 {
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 
 	string sql = "CREATE TABLE IF NOT EXISTS USER_DETAILS("
 		"NAME TEXT,"
 		"EMAIL TEXT NOT NULL,"
-		" PRIMARY KEY(NAME));";
+		"PRIMARY KEY(NAME));";
 	try {
 		int iDB = 0;
-		iDB = sqlite3_open(s, &DataBase);
+		iDB = sqlite3_open(stringText, &DataBase);
 
 		char* messageError;
 		//executes the SQL command, if not executed "messageError" is throws an error.
@@ -131,15 +134,15 @@ static int createUserTable(const char * s)
 }
 
 //insert the user data into 'User_Details' table
-static int insertUserData(const char* s)
+int insertUserData(const char* stringText)
 {
 	char cUserName[30];
 	char cUserMail[30];
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 	char* messageError;
-	char moreRecords;;
+	char moreRecords;
 
-	int iDB = sqlite3_open(s, &DataBase);
+	int iDB = sqlite3_open(stringText, &DataBase);
 	do {
 		getchar();
 		cout << "\n Enter username : ";
@@ -150,7 +153,7 @@ static int insertUserData(const char* s)
 
 		iDB = sqlite3_exec(DataBase, sql.c_str(), NULL, 0, &messageError);
 		if (iDB != SQLITE_OK) {
-			cerr << "\n Error Insert \n" << endl;
+			cerr << "\n Error Insert / user may exist \n" << endl;
 			sqlite3_free(messageError);
 		}
 		else
@@ -159,18 +162,19 @@ static int insertUserData(const char* s)
 		cout << "\n Add more records? (Y/N) : ";
 		cin >> moreRecords;
 	} while (moreRecords == 'y');
+	sqlite3_close(DataBase);
 	return 0;
 }
 
 //updates the 'email' based on user name
-static int updateUserData(const char * s)
+int updateUserData(const char * stringText)
 {
 	char cUserName[30];
 	char cUserMail[30];
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 	char* messageError;
 
-	int iDB = sqlite3_open(s, &DataBase);
+	int iDB = sqlite3_open(stringText, &DataBase);
 
 	getchar();
 	cout << "\n Enter username : ";
@@ -187,17 +191,19 @@ static int updateUserData(const char * s)
 	}
 	else
 		cout << "\n Records updated successfully \n" << endl;
+
+	sqlite3_close(DataBase);
 	return 0;
 }
 
 //delete the user data
-static int deleteUserData(const char * s)
+int deleteUserData(const char * stringText)
 {
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 	char cDelName[30];
 	char* messageError;
 
-	int iDB = sqlite3_open(s, &DataBase);
+	int iDB = sqlite3_open(stringText, &DataBase);
 	cout << "\n Enter user name to delete : ";
 	cin >> cDelName;
 
@@ -210,48 +216,48 @@ static int deleteUserData(const char * s)
 	}
 	else
 		cout << "\n Records Deleted successfully \n" << endl;
-
+	sqlite3_close(DataBase);
 	return 0;
 }
 
 //Display contents of USER_DETAILS table
-static int selectUserData(const char * s)
+int selectUserData(const char * stringText)
 {
-	sqlite3* DataBase;
-	int iDB = sqlite3_open(s, &DataBase);
+	sqlite3* DataBase = NULL;
+	int iDB = sqlite3_open(stringText, &DataBase);
 
 	string sql = "SELECT * FROM USER_DETAILS;";
 
 	/* an open DataBase, SQL to be evaluated, callback function, 1st argument to callback, error msg written here*/
 	sqlite3_exec(DataBase, sql.c_str(), callback, NULL, NULL);
-
+	sqlite3_close(DataBase);
 	return 0;
 }
 
 //retrive contents of DataBase used by selectData()
 /* argc: holds the number of results, azColName: holds each column returned in array, argv: holds each value in array*/
-static int callback(void * NotUsed, int argc, char ** argv, char ** azColName)
+int callback(void * NotUsed, int argc, char ** argv, char ** azColName)
 {
-	for (int i = 0; i < argc; i++)
+	for (int index = 0; index < argc; index++)
 	{
 		//column name & value
-		cout << azColName[i] << " : " << argv[i] << endl;
+		cout << azColName[index] << " : " << argv[index] << endl;
 	}
 	cout << endl;
 	return 0;
 }
 
 //creates the 'Friend_Details' table in FriendPage database
-static int createFriendTable(const char * s)
+int createFriendTable(const char * stringText)
 {
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 
 	string sql = "CREATE TABLE IF NOT EXISTS FRIEND_DETAILS("
 		"NAME TEXT REFERENCES USER_DETAILS(NAME),"
-		"FRIEND TEXT NULL UNIQUE);";
+		"FRIEND TEXT UNIQUE);";
 	try {
 		int iDB = 0;
-		iDB = sqlite3_open(s, &DataBase);
+		iDB = sqlite3_open(stringText, &DataBase);
 
 		char* messageError;
 		iDB = sqlite3_exec(DataBase, sql.c_str(), NULL, 0, &messageError);
@@ -271,60 +277,95 @@ static int createFriendTable(const char * s)
 }
 
 //insert the user's friends data into 'Friend_Details' table
-int addFriend(const char * s)
+int addFriend(const char * stringText)
 {
 	char cName[30];
 	char cFriend[30];
-	sqlite3* DataBase;
+	sqlite3* DataBase = NULL;
 	char* messageError;
 	char moreRecords;;
 
-	int iDB = sqlite3_open(s, &DataBase);
+	int iDB = sqlite3_open(stringText, &DataBase);
 
 	getchar();
 	cout << "\n Enter your username : ";
 	cin.getline(cName, 30);
 	cout << "\n Enter friend's name : ";
 	cin.getline(cFriend, 30);
-	string sql("INSERT INTO FRIEND_DETAILS VALUES(" + quotesql(cName) + "," + quotesql(cFriend) + ");");
-
+	string sql("INSERT INTO FRIEND_DETAILS VALUES("+quotesql(cName)+","+quotesql(cFriend)+");");
+	/*
+	string sql = "SELECT USER_DETAILS.NAME, USER_DETAILS.EMAIL, FRIEND_DETAILS.FRIEND "
+		"FROM USER_DETAILS JOIN FRIEND_DETAILS ON (USER_DETAILS.NAME = FRIEND_DETAILS.NAME) "
+		"WHERE FRIEND_DETAILS.NAME=" + quotesql(cName) + ";";
+	*/
 	iDB = sqlite3_exec(DataBase, sql.c_str(), NULL, 0, &messageError);
 	if (iDB != SQLITE_OK) {
-		cerr << "\n Error adding friend \n" << endl;
+		cerr << "\n Error adding friend/ friend already exist. \n" << endl;
 		sqlite3_free(messageError);
 	}
 	else
 		cout << "\n Added friend successfully \n" << endl;
+	sqlite3_close(DataBase);
 	return 0;
 }
 
 //shows specific user's details along with there 
-int showFriend(const char * s)
+int showFriend(const char * stringText)
 {
 	try {
-		sqlite3* DataBase;
+		sqlite3* DataBase = NULL;
 		char cName[30];
 		char* messageError;
 
-		int iDB = sqlite3_open(s, &DataBase);
+		int iDB = sqlite3_open(stringText, &DataBase);
 
 		cout << "Enter your user name : ";
 		cin >> cName;
 		string sql = "SELECT USER_DETAILS.NAME, USER_DETAILS.EMAIL, FRIEND_DETAILS.FRIEND "
-			"FROM USER_DETAILS LEFT JOIN FRIEND_DETAILS ON (USER_DETAILS.NAME = FRIEND_DETAILS.NAME) "
-			"WHERE FRIEND_DETAILS.NAME = " + quotesql(cName) + ";";
+			"FROM USER_DETAILS JOIN FRIEND_DETAILS ON (USER_DETAILS.NAME = FRIEND_DETAILS.NAME) "
+			"WHERE FRIEND_DETAILS.NAME=" + quotesql(cName) + ";";
 
 		/* an open DataBase, SQL to be evaluated, callback function, 1st argument to callback, error msg written here*/
 
 		iDB = sqlite3_exec(DataBase, sql.c_str(), callback, NULL, &messageError);
 		if (iDB != SQLITE_OK) {
-			cerr << "Error showing friend" << endl;
+			cerr << "Error showing friend/User does not exist" << endl;
 			sqlite3_free(messageError);
 		}
+		sqlite3_close(DataBase);
 	}
 	catch (const exception &e) {
 		cerr << e.what();
+	}
+	return 0;
+}
 
+int suggestFriend(const char * stringText)
+{
+	try {
+		sqlite3* DataBase = NULL;
+		char cName[30];
+		char* messageError;
+
+		int iDB = sqlite3_open(stringText, &DataBase);
+
+		cout << "Enter your user name : ";
+		cin >> cName;
+		string sql = "SELECT FRIEND_DETAILS.FRIEND "
+			"FROM FRIEND_DETAILS JOIN USER_DETAILS ON (FRIEND_DETAILS.NAME = USER_DETAILS.NAME) "
+			"WHERE FRIEND_DETAILS.NAME NOT LIKE " + quotesql(cName) + ";";
+
+		/* an open DataBase, SQL to be evaluated, callback function, 1st argument to callback, error msg written here*/
+
+		iDB = sqlite3_exec(DataBase, sql.c_str(), callback, NULL, &messageError);
+		if (iDB != SQLITE_OK) {
+			cerr << "Error suggesting friend" << endl;
+			sqlite3_free(messageError);
+		}
+		sqlite3_close(DataBase);
+	}
+	catch (const exception &e) {
+		cerr << e.what();
 	}
 	return 0;
 }
